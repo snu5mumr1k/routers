@@ -1,3 +1,8 @@
+## Description
+
+Development web server for routers' location synchronization inside a big company.
+Web server architecture is based on REST.
+
 ## Installation
 
 **Use python 3** <br />
