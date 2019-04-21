@@ -77,6 +77,3 @@ class TestLocations(FlaskTestCase):
         ).first()
         assert len(start_location.routers) == routers_cnt - routers_cnt // 2
         assert len(cur_location.routers) == routers_cnt // 2
-
-    def get_desc(self):
-        return 'Testing locations db functionality'
