@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask import Blueprint, request, make_response, abort
 from app import app, db
 from app.models import Location
