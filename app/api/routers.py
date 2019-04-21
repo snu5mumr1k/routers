@@ -9,7 +9,7 @@ from sqlalchemy import desc
 from app import app, db
 from app.models import Router, Location
 from app.utils.checkers import is_integer
-from config import LOWER_ROUTER_MODELS, ROUTER_STATES
+from config import LOWER_ROUTER_MODELS
 
 api_routers = Blueprint("api_routers", __name__)
 

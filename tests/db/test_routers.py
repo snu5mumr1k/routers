@@ -3,7 +3,7 @@
 import pytest
 
 from app import db
-from config import ROUTER_MODELS, ROUTER_STATES
+from config import ROUTER_MODELS
 from app.models import Router, Location
 from tests.base import FlaskTestCase
 
@@ -12,7 +12,7 @@ def invert_case(s):
     return ''.join(c.lower() if c.isupper() else c.upper() for c in s)
 
 
-class TestCase(FlaskTestCase):
+class TestRouter(FlaskTestCase):
     def __test_model(self, id, model):
         router = Router.query.filter(Router.id == id).first()
         assert router is not None
@@ -57,14 +57,13 @@ class TestCase(FlaskTestCase):
         assert Router.query.filter(Router.id == router.id).first() is None
 
     def test_router_state(self):
-        assert len(ROUTER_STATES)
         model = ROUTER_MODELS[0]
         router = Router(model=model, location_id=1)
         assert router.state == Router.State['deactivated']
         db.session.add(router)
         db.session.commit()
         assert router.state == Router.State['deactivated']
-        for state in ROUTER_STATES:
+        for state in Router.State.__members__:
             router.state = state
             assert router.state == state
             db.session.add(router)
