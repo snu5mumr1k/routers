@@ -1,25 +1,16 @@
 # -*- coding: utf-8 -*-
+
+import json
+
 from flask import Blueprint, request, make_response, abort
+from sqlalchemy import desc
+
 from app import app, db
 from app.models import Location
-from sqlalchemy import desc
-import json
+from app.utils.checkers import is_integer
 
 
 api_locations = Blueprint('api_locations', __name__)
-
-
-def is_integer(num):
-    if isinstance(num, int):
-        return True
-    elif isinstance(num, str):
-        try:
-            num = int(num)
-            return True
-        except ValueError:
-            return False
-    else:
-        return False
 
 
 @api_locations.errorhandler(404)

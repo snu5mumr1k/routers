@@ -5,7 +5,7 @@ python:
   - "3.7-dev"
 install:
   - pip install -r requirements.txt
-  - pip install flake8
+  - pip install flake8 pytest
 script:
-  - ./run_tests.py
+  - pytest
   - flake8

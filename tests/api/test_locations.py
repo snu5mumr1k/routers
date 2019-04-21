@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
+import json
+
 from tests.base import FlaskTestCase
 from app import db
 from app.models import Location
-import json
 
 
-class TestCase(FlaskTestCase):
+class TestLocations(FlaskTestCase):
     def __fill_db(self, cnt):
         locations = {}
         LOCATIONS_ADDRESSES = ['Russia', 'USA', 'France', 'England', 'Germany']
@@ -28,28 +29,26 @@ class TestCase(FlaskTestCase):
         with self.app as c:
             resp = c.get('/api/locations')
             data = json.loads(resp.data.decode('utf8'))
-            self.assertEqual(len(data['locations']), default_limit)
+            assert len(data['locations']) == default_limit
             all_locations = data['locations']
 
             resp = c.get(
                     '/api/locations?limit={0}'.format(str(default_limit // 2))
                 )
             data = json.loads(resp.data.decode('utf8'))
-            self.assertEqual(len(data['locations']), default_limit // 2)
+            assert len(data['locations']) == default_limit // 2
             cur_locations = data['locations']
+            limit = default_limit - default_limit // 2
             resp = c.get(
                     '/api/locations?limit={0}&offset={1}'.format(
-                            str(default_limit - default_limit // 2),
+                            limit,
                             str(len(cur_locations))
                         )
                 )
             data = json.loads(resp.data.decode('utf8'))
-            self.assertEqual(
-                    len(data['locations']),
-                    default_limit - default_limit // 2
-                )
+            assert limit == len(data['locations'])
             cur_locations += data['locations']
-            self.assertEqual(len(cur_locations), len(all_locations))
+            assert len(cur_locations) == len(all_locations)
 
             for location_id in locations.keys():
                 resp = c.get(
@@ -58,14 +57,12 @@ class TestCase(FlaskTestCase):
                             )
                     )
                 data = json.loads(resp.data.decode('utf8'))
-                self.assertDictEqual(
-                        data['location'], locations[location_id]
-                    )
+                assert data['location'] == locations[location_id]
 
             resp = c.get('/api/locations?limit=test')
-            self.assertEqual(resp.status_code, 400)
+            assert resp.status_code == 400
             resp = c.get('/api/locations?offset=test')
-            self.assertEqual(resp.status_code, 400)
+            assert resp.status_code == 400
 
     def test_location_post(self):
         with self.app as c:
@@ -77,7 +74,7 @@ class TestCase(FlaskTestCase):
                         }
                     )
                 )
-            self.assertEqual(resp.status_code, 400)
+            assert resp.status_code == 400
 
             resp = c.post(
                     '/api/locations',
@@ -87,7 +84,7 @@ class TestCase(FlaskTestCase):
                         }
                     )
                 )
-            self.assertEqual(resp.status_code, 400)
+            assert resp.status_code == 400
 
             resp = c.post(
                     '/api/locations',
@@ -98,13 +95,13 @@ class TestCase(FlaskTestCase):
                     ),
                     content_type='application/json'
                 )
-            self.assertEqual(resp.status_code, 201)
+            assert resp.status_code == 201
             data = json.loads(resp.data.decode('utf8'))
             get_resp = c.get('/api/locations/{0}'.format(
                     str(data['location']['id']))
                 )
             get_data = json.loads(get_resp.data.decode('utf8'))
-            self.assertDictEqual(data['location'], get_data['location'])
+            assert data['location'] == get_data['location']
 
     def test_location_delete(self):
         with self.app as c:
@@ -117,7 +114,7 @@ class TestCase(FlaskTestCase):
                     ),
                     content_type='application/json'
                 )
-            self.assertEqual(resp.status_code, 201)
+            assert resp.status_code == 201
             data = json.loads(resp.data.decode('utf8'))
             resp = c.delete(
                     '/api/locations/{0}'.format(str(data['location']['id']))
@@ -125,7 +122,7 @@ class TestCase(FlaskTestCase):
             get_resp = c.get('/api/locations/{0}'.format(
                     str(data['location']['id']))
                 )
-            self.assertEqual(get_resp.status_code, 404)
+            assert get_resp.status_code == 404
 
     def test_location_put(self):
         with self.app as c:
@@ -138,7 +135,7 @@ class TestCase(FlaskTestCase):
                     ),
                     content_type='application/json'
                 )
-            self.assertEqual(resp.status_code, 201)
+            assert resp.status_code == 201
             location = json.loads(resp.data.decode('utf8'))['location']
             location['address'] = 'USA'
             resp = c.put(
@@ -150,14 +147,11 @@ class TestCase(FlaskTestCase):
                     ),
                     content_type='application/json'
                 )
-            self.assertEqual(resp.status_code, 200)
+            assert resp.status_code == 200
             data = json.loads(resp.data.decode('utf8'))
-            self.assertDictEqual(data['location'], location)
+            assert data['location'] == location
             resp = c.get(
                     '/api/locations/{0}'.format(str(location['id']))
                 )
             data = json.loads(resp.data.decode('utf8'))
-            self.assertDictEqual(data['location'], location)
-
-    def get_desc(self):
-        return 'Testing locations api functionality'
+            assert data['location'] == location
