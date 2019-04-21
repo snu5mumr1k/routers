@@ -5,6 +5,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "routers.db")
 
+DEFAULT_PAGE_LIMIT = 20
+
 ROUTER_MODELS = [
     "ASUS",
     "Meraki",
