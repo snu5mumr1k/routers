@@ -28,8 +28,8 @@ Web server architecture is based on REST.
 | PUT         | http://[hostname]/api/routers/[router_id]     | Update an existing router   | :soon: | :soon: |
 | DELETE      | http://[hostname]/api/routers/[router_id]     | Delete an existing router   | :soon: | :soon: |
 ||||||
-| GET         | http://[hostname]/api/locations               | Retrieve list of locations  | :soon: | :soon: |
-| GET         | http://[hostname]/api/locations/[location_id] | Retrieve a location         | :soon: | :soon: |
-| POST        | http://[hostname]/api/locations               | Create a location           | :soon: | :soon: |
-| PUT         | http://[hostname]/api/locations/[location_id] | Update an existing location | :soon: | :soon: |
-| DELETE      | http://[hostname]/api/locations/[location_id] | Delete an existing location | :soon: | :soon: |
+| GET         | http://[hostname]/api/locations               | Retrieve list of locations  | :white_check_mark: | :soon: |
+| GET         | http://[hostname]/api/locations/[location_id] | Retrieve a location         | :white_check_mark: | :soon: |
+| POST        | http://[hostname]/api/locations               | Create a location           | :white_check_mark: | :soon: |
+| PUT         | http://[hostname]/api/locations/[location_id] | Update an existing location | :white_check_mark: | :soon: |
+| DELETE      | http://[hostname]/api/locations/[location_id] | Delete an existing location | :white_check_mark: | :soon: |
