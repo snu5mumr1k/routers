@@ -6,7 +6,7 @@ from sqlalchemy import func
 from sqlalchemy.orm import relationship
 
 from app import db
-from config import ROUTER_MODELS
+from config import ROUTER_MODELS, LOWER_ROUTER_MODELS
 
 
 class Router(db.Model):
