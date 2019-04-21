@@ -50,3 +50,42 @@ def get_location(location_id):
     if location is None:
         abort(404, 'Location not found')
     return make_response(json.dumps({'location': location.data()}), 200)
+
+
+@api_locations.route('/locations', methods=['POST'])
+def create_location():
+    if not request.json:
+        abort(400, 'Request should be json')
+    if 'address' not in request.json.keys():
+        abort(400, 'Request should contain address')
+    new_location = Location(address=request.json['address'])
+    db.session.add(new_location)
+    db.session.commit()
+    return make_response(
+            json.dumps({'location': new_location.data()}),
+            201,
+            {"Location": "api/locations/{0}".format(new_location.id)}
+        )
+
+
+@api_locations.route('/locations/<int:location_id>', methods=['PUT'])
+def update_location(location_id):
+    location = Location.query.filter(Location.id == location_id).first()
+    if location is None:
+        abort(404, 'Location not found')
+    if not request.json:
+        abort(400, 'Request should be json')
+    location.address = request.json.get('address', location.address)
+    db.session.add(location)
+    db.session.commit()
+    return make_response(json.dumps({'location': location.data()}), 200)
+
+
+@api_locations.route('/locations/<int:location_id>', methods=['DELETE'])
+def delete_location(location_id):
+    location = Location.query.filter(Location.id == location_id).first()
+    if location is None:
+        abort(404, 'Location not found')
+    db.session.delete(location)
+    db.session.commit()
+    return make_response('', 204)
