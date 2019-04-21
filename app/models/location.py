@@ -27,3 +27,12 @@ class Location(db.Model):
 
     def __init__(self, address):
         self.address = address
+
+    def data(self):
+        return {
+            'id': self.id,
+            'address': self.address,
+            'time_created': str(self.time_created),
+            'time_updated': str(self.time_updated),
+            'routers': [router.id for router in self.routers]
+        }
