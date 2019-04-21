@@ -12,7 +12,11 @@ Web server architecture is based on REST.
 2. Install the required libraries
   1. (optional) [Install virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/). To choose python version: `virtualenv venv -p python3.7`
   2. `python3 -m pip install -r requirements.txt`
-3. Start server `python3 run.py`
+3. Setup database (if necessary)
+  1. python3 db.py db init
+  2. python3 db.py db migrate
+  3. python3 db.py db upgrade
+4. Start server `python3 run.py`
 
 ![Database models](/models.jpg?raw=true)
 
