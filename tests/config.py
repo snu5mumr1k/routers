@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import tests.db.locations
 
 import tests.api.locations
