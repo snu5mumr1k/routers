@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
+
 from tests.base import FlaskTestCase
-from app import app, db
+from app import db
 from app.models import Location
 import json
 

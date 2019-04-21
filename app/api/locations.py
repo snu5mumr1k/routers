@@ -20,6 +20,7 @@ def is_integer(num):
     else:
         return False
 
+
 @api_locations.errorhandler(404)
 @api_locations.errorhandler(400)
 def error_handler(error):

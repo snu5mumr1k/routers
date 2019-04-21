@@ -27,5 +27,5 @@ ROUTER_STATES = [
 
 LOWER_ROUTER_MODELS = {m.lower(): m for m in ROUTER_MODELS}
 
-# XXX: https://stackoverflow.com/questions/33738467/how-do-i-know-if-i-can-disable-sqlalchemy-track-modifications/33790196#33790196
+# XXX: https://stackoverflow.com/questions/33738467/how-do-i-know-if-i-can-disable-sqlalchemy-track-modifications/33790196#33790196  # noqa: E501
 SQLALCHEMY_TRACK_MODIFICATIONS = False
