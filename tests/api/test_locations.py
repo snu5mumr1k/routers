@@ -7,7 +7,7 @@ from app import db
 from app.models import Location
 
 
-class TestCase(FlaskTestCase):
+class TestLocations(FlaskTestCase):
     def __fill_db(self, cnt):
         locations = {}
         LOCATIONS_ADDRESSES = ['Russia', 'USA', 'France', 'England', 'Germany']
