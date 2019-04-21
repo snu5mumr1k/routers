@@ -41,3 +41,13 @@ class Router(db.Model):
             self.model = LOWER_ROUTER_MODELS[model.lower()]
         else:
             raise ValueError
+
+    def data(self):
+        return {
+            'id': self.id,
+            'model': self.model,
+            'time_created': str(self.time_created),
+            'time_updated': str(self.time_updated),
+            'state': self.state.name,
+            'location_id': self.location_id
+        }
