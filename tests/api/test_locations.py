@@ -34,17 +34,14 @@ class TestLocations(FlaskTestCase):
             all_locations = data['locations']
 
             resp = c.get(
-                    '/api/locations?limit={0}'.format(str(default_limit // 2))
+                    f'/api/locations?limit={default_limit // 2}',
                 )
             data = json.loads(resp.data.decode('utf8'))
             assert len(data['locations']) == default_limit // 2
             cur_locations = data['locations']
             limit = default_limit - default_limit // 2
             resp = c.get(
-                    '/api/locations?limit={0}&offset={1}'.format(
-                            limit,
-                            str(len(cur_locations))
-                        )
+                    f'/api/locations?limit={limit}&offset={len(cur_locations)}',
                 )
             data = json.loads(resp.data.decode('utf8'))
             assert limit == len(data['locations'])
@@ -53,9 +50,7 @@ class TestLocations(FlaskTestCase):
 
             for location_id in locations.keys():
                 resp = c.get(
-                        '/api/locations/{0}'.format(
-                                str(location_id)
-                            )
+                        f'/api/locations/{location_id}',
                     )
                 data = json.loads(resp.data.decode('utf8'))
                 assert data['location'] == locations[location_id]
@@ -98,9 +93,8 @@ class TestLocations(FlaskTestCase):
                 )
             assert resp.status_code == HTTPStatus.CREATED
             data = json.loads(resp.data.decode('utf8'))
-            get_resp = c.get('/api/locations/{0}'.format(
-                    str(data['location']['id']))
-                )
+            location_id = data['location']['id']
+            get_resp = c.get(f'/api/locations/{location_id}')
             get_data = json.loads(get_resp.data.decode('utf8'))
             assert data['location'] == get_data['location']
 
@@ -117,12 +111,11 @@ class TestLocations(FlaskTestCase):
                 )
             assert resp.status_code == HTTPStatus.CREATED
             data = json.loads(resp.data.decode('utf8'))
+            location_id = data['location']['id']
             resp = c.delete(
-                    '/api/locations/{0}'.format(str(data['location']['id']))
+                    f'/api/locations/{location_id}',
                 )
-            get_resp = c.get('/api/locations/{0}'.format(
-                    str(data['location']['id']))
-                )
+            get_resp = c.get(f'/api/locations/{location_id}')
             assert get_resp.status_code == HTTPStatus.NOT_FOUND
 
     def test_location_put(self):
@@ -139,8 +132,9 @@ class TestLocations(FlaskTestCase):
             assert resp.status_code == HTTPStatus.CREATED
             location = json.loads(resp.data.decode('utf8'))['location']
             location['address'] = 'USA'
+            location_id = location['id']
             resp = c.put(
-                    '/api/locations/{0}'.format(str(location['id'])),
+                    f'/api/locations/{location_id}',
                     data=json.dumps(
                         {
                             'address': 'USA'
@@ -151,8 +145,6 @@ class TestLocations(FlaskTestCase):
             assert resp.status_code == HTTPStatus.OK
             data = json.loads(resp.data.decode('utf8'))
             assert data['location'] == location
-            resp = c.get(
-                    '/api/locations/{0}'.format(str(location['id']))
-                )
+            resp = c.get(f'/api/locations/{location_id}')
             data = json.loads(resp.data.decode('utf8'))
             assert data['location'] == location

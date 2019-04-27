@@ -58,7 +58,7 @@ def create_location():
     return make_response(
             json.dumps({'location': new_location.data()}),
             HTTPStatus.CREATED,
-            {'Location': 'api/locations/{0}'.format(new_location.id)}
+            {'Location': f'api/locations/{new_location.id}'}
         )
 
 
