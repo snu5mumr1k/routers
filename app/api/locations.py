@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from http import HTTPStatus
 import json
 
 from flask import Blueprint, request, make_response, abort
@@ -13,8 +14,8 @@ from app.utils.checkers import is_integer
 api_locations = Blueprint('api_locations', __name__)
 
 
-@api_locations.errorhandler(404)
-@api_locations.errorhandler(400)
+@api_locations.errorhandler(HTTPStatus.NOT_FOUND)
+@api_locations.errorhandler(HTTPStatus.BAD_REQUEST)
 def error_handler(error):
     return make_response(json.dumps({'error': error.description}), error.code)
 
@@ -24,39 +25,39 @@ def get_locations():
     offset = request.args.get('offset', 0)
     limit = request.args.get('limit', app.config['DEFAULT_PAGE_LIMIT'])
     if not is_integer(offset):
-        abort(400, 'Offset is not integer')
+        abort(HTTPStatus.BAD_REQUEST, 'Offset is not integer')
     if not is_integer(limit):
-        abort(400, 'Limit is not integer')
+        abort(HTTPStatus.BAD_REQUEST, 'Limit is not integer')
     offset = int(offset)
     limit = int(limit)
     locations = [
-            x.data() for x in Location.query.order_by(
-                    desc(Location.time_updated)
-                ).slice(offset, offset + limit).all()
-        ]
-    return make_response(json.dumps({'locations': locations}), 200)
+        x.data() for x in Location.query.order_by(
+            desc(Location.time_updated)
+        ).slice(offset, offset + limit).all()
+    ]
+    return make_response(json.dumps({'locations': locations}), HTTPStatus.OK)
 
 
 @api_locations.route('/locations/<int:location_id>', methods=['GET'])
 def get_location(location_id):
     location = Location.query.filter(Location.id == location_id).first()
     if location is None:
-        abort(404, 'Location not found')
-    return make_response(json.dumps({'location': location.data()}), 200)
+        abort(HTTPStatus.NOT_FOUND, 'Location not found')
+    return make_response(json.dumps({'location': location.data()}), HTTPStatus.OK)
 
 
 @api_locations.route('/locations', methods=['POST'])
 def create_location():
     if not request.json:
-        abort(400, 'Request should be json')
+        abort(HTTPStatus.BAD_REQUEST, 'Request should be json')
     if 'address' not in request.json.keys():
-        abort(400, 'Request should contain address')
+        abort(HTTPStatus.BAD_REQUEST, 'Request should contain address')
     new_location = Location(address=request.json['address'])
     db.session.add(new_location)
     db.session.commit()
     return make_response(
             json.dumps({'location': new_location.data()}),
-            201,
+            HTTPStatus.CREATED,
             {'Location': 'api/locations/{0}'.format(new_location.id)}
         )
 
@@ -65,20 +66,20 @@ def create_location():
 def update_location(location_id):
     location = Location.query.filter(Location.id == location_id).first()
     if location is None:
-        abort(404, 'Location not found')
+        abort(HTTPStatus.NOT_FOUND, 'Location not found')
     if not request.json:
-        abort(400, 'Request should be json')
+        abort(HTTPStatus.BAD_REQUEST, 'Request should be json')
     location.address = request.json.get('address', location.address)
     db.session.add(location)
     db.session.commit()
-    return make_response(json.dumps({'location': location.data()}), 200)
+    return make_response(json.dumps({'location': location.data()}), HTTPStatus.OK)
 
 
 @api_locations.route('/locations/<int:location_id>', methods=['DELETE'])
 def delete_location(location_id):
     location = Location.query.filter(Location.id == location_id).first()
     if location is None:
-        abort(404, 'Location not found')
+        abort(HTTPStatus.NOT_FOUND, 'Location not found')
     db.session.delete(location)
     db.session.commit()
-    return make_response('', 204)
+    return make_response('', HTTPStatus.NO_CONTENT)

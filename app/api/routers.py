@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import json
 from http import HTTPStatus
+import json
 
 from flask import Blueprint, request, make_response, abort
 from sqlalchemy import desc

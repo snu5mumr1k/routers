@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from http import HTTPStatus
 import json
 
 from tests.base import FlaskTestCase
@@ -60,9 +61,9 @@ class TestLocations(FlaskTestCase):
                 assert data['location'] == locations[location_id]
 
             resp = c.get('/api/locations?limit=test')
-            assert resp.status_code == 400
+            assert resp.status_code == HTTPStatus.BAD_REQUEST
             resp = c.get('/api/locations?offset=test')
-            assert resp.status_code == 400
+            assert resp.status_code == HTTPStatus.BAD_REQUEST
 
     def test_location_post(self):
         with self.app as c:
@@ -74,7 +75,7 @@ class TestLocations(FlaskTestCase):
                         }
                     )
                 )
-            assert resp.status_code == 400
+            assert resp.status_code == HTTPStatus.BAD_REQUEST
 
             resp = c.post(
                     '/api/locations',
@@ -84,7 +85,7 @@ class TestLocations(FlaskTestCase):
                         }
                     )
                 )
-            assert resp.status_code == 400
+            assert resp.status_code == HTTPStatus.BAD_REQUEST
 
             resp = c.post(
                     '/api/locations',
@@ -95,7 +96,7 @@ class TestLocations(FlaskTestCase):
                     ),
                     content_type='application/json'
                 )
-            assert resp.status_code == 201
+            assert resp.status_code == HTTPStatus.CREATED
             data = json.loads(resp.data.decode('utf8'))
             get_resp = c.get('/api/locations/{0}'.format(
                     str(data['location']['id']))
@@ -114,7 +115,7 @@ class TestLocations(FlaskTestCase):
                     ),
                     content_type='application/json'
                 )
-            assert resp.status_code == 201
+            assert resp.status_code == HTTPStatus.CREATED
             data = json.loads(resp.data.decode('utf8'))
             resp = c.delete(
                     '/api/locations/{0}'.format(str(data['location']['id']))
@@ -122,7 +123,7 @@ class TestLocations(FlaskTestCase):
             get_resp = c.get('/api/locations/{0}'.format(
                     str(data['location']['id']))
                 )
-            assert get_resp.status_code == 404
+            assert get_resp.status_code == HTTPStatus.NOT_FOUND
 
     def test_location_put(self):
         with self.app as c:
@@ -135,7 +136,7 @@ class TestLocations(FlaskTestCase):
                     ),
                     content_type='application/json'
                 )
-            assert resp.status_code == 201
+            assert resp.status_code == HTTPStatus.CREATED
             location = json.loads(resp.data.decode('utf8'))['location']
             location['address'] = 'USA'
             resp = c.put(
@@ -147,7 +148,7 @@ class TestLocations(FlaskTestCase):
                     ),
                     content_type='application/json'
                 )
-            assert resp.status_code == 200
+            assert resp.status_code == HTTPStatus.OK
             data = json.loads(resp.data.decode('utf8'))
             assert data['location'] == location
             resp = c.get(
