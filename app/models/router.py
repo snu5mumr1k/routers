@@ -49,5 +49,5 @@ class Router(db.Model):
             'time_created': str(self.time_created),
             'time_updated': str(self.time_updated),
             'state': self.state.name,
-            'location_id': self.location_id
+            'location_id': self.location_id,
         }

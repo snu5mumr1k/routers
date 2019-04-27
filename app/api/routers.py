@@ -77,7 +77,7 @@ def create_router():
     return make_response(
         json.dumps({'router': new_router.data()}),
         HTTPStatus.CREATED,
-        {'Location': f'api/routers/{new_router.id}'}
+        {'Location': f'api/routers/{new_router.id}'},
     )
 
 

@@ -56,10 +56,10 @@ def create_location():
     db.session.add(new_location)
     db.session.commit()
     return make_response(
-            json.dumps({'location': new_location.data()}),
-            HTTPStatus.CREATED,
-            {'Location': f'api/locations/{new_location.id}'}
-        )
+        json.dumps({'location': new_location.data()}),
+        HTTPStatus.CREATED,
+        {'Location': f'api/locations/{new_location.id}'},
+    )
 
 
 @api_locations.route('/locations/<int:location_id>', methods=['PUT'])
