@@ -76,7 +76,7 @@ class TestRouter(FlaskTestCase):
         db.session.add(router)
         db.session.commit()
         assert router.location_id == 1
-        location = Location(address="USA")
+        location = Location(address='USA')
         location.routers.append(router)
         db.session.add(location)
         db.session.commit()

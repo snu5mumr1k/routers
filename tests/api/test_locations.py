@@ -70,7 +70,7 @@ class TestLocations(FlaskTestCase):
                     '/api/locations',
                     data=json.dumps(
                         {
-                            'address': "Cuba"
+                            'address': 'Cuba'
                         }
                     )
                 )
@@ -80,7 +80,7 @@ class TestLocations(FlaskTestCase):
                     '/api/locations',
                     data=json.dumps(
                         {
-                            'not_address': "Cuba"
+                            'not_address': 'Cuba'
                         }
                     )
                 )
@@ -109,7 +109,7 @@ class TestLocations(FlaskTestCase):
                     '/api/locations',
                     data=json.dumps(
                         {
-                            'address': "Cuba"
+                            'address': 'Cuba'
                         }
                     ),
                     content_type='application/json'

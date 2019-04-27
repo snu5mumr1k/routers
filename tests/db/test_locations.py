@@ -8,7 +8,7 @@ from tests.base import FlaskTestCase
 
 class TestLocations(FlaskTestCase):
     def test_location_create(self):
-        address = "Russia, Moscow, Red Square"
+        address = 'Russia, Moscow, Red Square'
         location = Location(address=address)
         db.session.add(location)
         db.session.commit()
@@ -20,14 +20,14 @@ class TestLocations(FlaskTestCase):
         assert address == created_address
 
     def test_location_update(self):
-        address = "Russia, Moscow"
+        address = 'Russia, Moscow'
         location = Location(address=address)
         db.session.add(location)
         db.session.commit()
         location_id = location.id
         assert len(Location.query.filter(Location.address == address).all())
         assert len(Location.query.filter(Location.id == location_id).all())
-        address += ", Red Square"
+        address += ', Red Square'
         location.address = address
         db.session.add(location)
         db.session.commit()
@@ -35,7 +35,7 @@ class TestLocations(FlaskTestCase):
         assert len(Location.query.filter(Location.id == location_id).all())
 
     def test_location_delete(self):
-        address = "Russia, Moscow, Red Square"
+        address = 'Russia, Moscow, Red Square'
         location = Location(address=address)
         db.session.add(location)
         db.session.commit()
@@ -47,8 +47,8 @@ class TestLocations(FlaskTestCase):
     def test_location_routers(self):
         assert len(ROUTER_MODELS)
         routers_cnt = 15
-        address1 = "Russia, Moscow, Red Square"
-        address2 = "Russia, Moscow, Red Square 2"
+        address1 = 'Russia, Moscow, Red Square'
+        address2 = 'Russia, Moscow, Red Square 2'
         for i in range(routers_cnt):
             db.session.add(Router(ROUTER_MODELS[i % len(ROUTER_MODELS)], 1))
         db.session.add(Location(address=address1))

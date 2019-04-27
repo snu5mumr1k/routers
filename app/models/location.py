@@ -7,7 +7,7 @@ from app import db
 
 
 class Location(db.Model):
-    __tablename__ = "location"
+    __tablename__ = 'location'
 
     id = db.Column(db.Integer, primary_key=True)
 
@@ -23,7 +23,7 @@ class Location(db.Model):
         onupdate=func.now(),
     )
 
-    routers = relationship("Router")
+    routers = relationship('Router')
 
     def __init__(self, address):
         self.address = address

@@ -57,7 +57,7 @@ def create_location():
     return make_response(
             json.dumps({'location': new_location.data()}),
             201,
-            {"Location": "api/locations/{0}".format(new_location.id)}
+            {'Location': 'api/locations/{0}'.format(new_location.id)}
         )
 
 
