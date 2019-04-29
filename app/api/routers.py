@@ -2,6 +2,7 @@
 
 from http import HTTPStatus
 import json
+from flask_babel import _
 
 from flask import Blueprint, request, make_response, abort
 from sqlalchemy import desc
@@ -22,6 +23,7 @@ def error_handler(error):
 
 @api_routers.route('/routers', methods=['GET'])
 def get_routers():
+    app.logger.info(_('All routers request'))
     offset = request.args.get('offset', 0)
     limit = request.args.get('limit', app.config['DEFAULT_PAGE_LIMIT'])
     model = request.args.get('model', None)
@@ -54,6 +56,7 @@ def get_routers():
 
 @api_routers.route('/routers/<int:router_id>', methods=['GET'])
 def get_router(router_id):
+    app.logger.info(_('One router request: ') + str(router_id))
     router = Router.query.filter(Router.id == router_id).first()
     if router is None:
         abort(HTTPStatus.NOT_FOUND, 'Router not found')
@@ -71,6 +74,7 @@ def create_router():
     if 'location_id' not in request.json:
         abort(HTTPStatus.BAD_REQUEST, 'Router needs location_id')
 
+    app.logger.info(_('Create router, model: ') + str(request.json['model']))
     new_router = Router(model=request.json['model'], location_id=request.json['location_id'])
     db.session.add(new_router)
     db.session.commit()
@@ -108,6 +112,7 @@ def update_router(router_id):
             abort(HTTPStatus.BAD_REQUEST, 'Location does not exist')
         router.location_id = location_id
 
+    app.logger.info(_('Update router, model: ') + str(request.json['model']))
     db.session.add(router)
     db.session.commit()
     return make_response(json.dumps({'router': router.data()}), HTTPStatus.OK)
@@ -118,6 +123,7 @@ def delete_router(router_id):
     router = Router.query.filter(Router.id == router_id).first()
     if router is None:
         abort(HTTPStatus.NOT_FOUND, 'Router not found')
+    app.logger.info(_('Delete router, id: ') + str(router_id))
     db.session.delete(router)
     db.session.commit()
     return make_response('', HTTPStatus.NO_CONTENT)
