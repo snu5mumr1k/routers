@@ -9,7 +9,7 @@ from config import ROUTER_MODELS, LOWER_ROUTER_MODELS
 
 
 class Router(db.Model):
-    __tablename__ = "router"
+    __tablename__ = 'router'
 
     class State(enum.Enum):
         deactivated = 0
@@ -32,7 +32,7 @@ class Router(db.Model):
     model = db.Column(db.Enum(*ROUTER_MODELS))
     state = db.Column(db.Enum(State))
 
-    location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
+    location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
 
     def __init__(self, model, location_id):
         self.state = self.State.deactivated
@@ -49,5 +49,5 @@ class Router(db.Model):
             'time_created': str(self.time_created),
             'time_updated': str(self.time_updated),
             'state': self.state.name,
-            'location_id': self.location_id
+            'location_id': self.location_id,
         }

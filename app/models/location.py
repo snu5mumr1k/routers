@@ -7,7 +7,7 @@ from app import db
 
 
 class Location(db.Model):
-    __tablename__ = "location"
+    __tablename__ = 'location'
 
     id = db.Column(db.Integer, primary_key=True)
 
@@ -15,7 +15,7 @@ class Location(db.Model):
 
     time_created = db.Column(
         db.DateTime,
-        default=func.now()
+        default=func.now(),
     )
     time_updated = db.Column(
         db.DateTime,
@@ -23,7 +23,7 @@ class Location(db.Model):
         onupdate=func.now(),
     )
 
-    routers = relationship("Router")
+    routers = relationship('Router')
 
     def __init__(self, address):
         self.address = address
@@ -34,5 +34,5 @@ class Location(db.Model):
             'address': self.address,
             'time_created': str(self.time_created),
             'time_updated': str(self.time_updated),
-            'routers': [router.id for router in self.routers]
+            'routers': [router.id for router in self.routers],
         }
