@@ -18,7 +18,7 @@ ROUTER_MODELS = [
     'Ruckus',
 ]
 
-LANGUAGE = 'en' # ['en', 'ru']
+LANGUAGE = 'en'  # ['en', 'ru']
 
 LOWER_ROUTER_MODELS = {m.lower(): m for m in ROUTER_MODELS}
 
