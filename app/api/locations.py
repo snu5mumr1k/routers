@@ -73,7 +73,7 @@ def update_location(location_id):
         abort(HTTPStatus.NOT_FOUND, 'Location not found')
     if not request.json:
         abort(HTTPStatus.BAD_REQUEST, 'Request should be json')
-    app.logger.info(_('Update location, address: ') + str(request.json['address']))
+    app.logger.info(_('Update location, id: ') + str(location_id))
     location.address = request.json.get('address', location.address)
     db.session.add(location)
     db.session.commit()

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-30 01:53+0300\n"
+"POT-Creation-Date: 2019-04-30 10:29+0300\n"
 "PO-Revision-Date: 2019-04-30 01:40+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"Generated-By: Babel 2.5.3\n"
 
 #: app/api/locations.py:26
 msgid "All locations request"
@@ -32,8 +32,8 @@ msgid "Create location, address: "
 msgstr "Создание локации, адрес: "
 
 #: app/api/locations.py:76
-msgid "Update location, address: "
-msgstr "Обновление локации, адрес: "
+msgid "Update location, id: "
+msgstr "Обновление локации, id: "
 
 #: app/api/locations.py:88
 msgid "Delete location, id: "
@@ -44,18 +44,17 @@ msgid "All routers request"
 msgstr "Запрос всех роутеров"
 
 #: app/api/routers.py:59
-msgid "One router request: "
-msgstr "Запрос одного роутера: "
+msgid "One router request, id: "
+msgstr "Запрос одного роутера, id: "
 
 #: app/api/routers.py:77
-msgid "Create router, model: "
-msgstr "Создание роутреа, модель: "
+msgid "Create router, location_id: "
+msgstr "Создание роутера, location_id: "
 
 #: app/api/routers.py:115
-msgid "Update router, model: "
-msgstr "Обновление роутера, модель: "
+msgid "Update router, id: "
+msgstr "Обновление роутера, id: "
 
 #: app/api/routers.py:126
 msgid "Delete router, id: "
 msgstr "Удаление роутера, id: "
-
